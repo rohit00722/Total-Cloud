@@ -11,6 +11,6 @@ After following the above steps Kubernetes cluster will be deployed successfully
 
 To deploy the website on Kubernetes cluster install the nginx server and then run the script on nginx javascript to successfully deploy the website.
 
-The steps to deploy the website are mentioned in the nginx javascript deployment file.
+The steps to deploy the website are mentioned in the Nginx javascript website deployment procedure.
 
 
