@@ -1,0 +1,8 @@
+Deploy nginx image
+------------------
+
+These steps should be implemented after the successful deployment of kubernetes cluster.The following steps will deploy the Nginx server.
+
+kubectl run --image=nginx nginx-app --port=80
+
+kubectl expose deployment nginx-app --port=80 --name=nginx-http --type LoadBalancer
