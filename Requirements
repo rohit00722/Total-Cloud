@@ -1,0 +1,7 @@
+Before starting the project we need to have the following:-
+
+
+AWS CLI – while you can use the AWS Console to create a cluster in EKS, the AWS CLI is easier. You will need version 1.16.73 at least. .
+Kubectl – used for communicating with the cluster API server. For further instructions on installing, click here. This endpoint is public by default, but is secured by proper configuration of a VPC.
+AWS-IAM-Authenticator – to allow IAM authentication with the Kubernetes cluster. 
+
