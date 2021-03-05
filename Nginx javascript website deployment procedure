@@ -1,0 +1,63 @@
+NGINX JavaScript is implemented as a module that you can compile into an NGINX Open Source binary or dynamically load into NGINX or NGINX Plus. Instructions for enabling NGINX JavaScript with NGINX and NGINX Plus appear at the end of this article.
+
+Example: A Simple “Hello World” Module
+This example uses a simple Hello World module to show how to update the source for a module and load it into NGINX Plus. The “Hello World” module implements a simple directive (hello_world) that responds to requests with a simple message.
+
+Step 1: Obtain the NGINX Open Source Release
+Determine the NGINX Open Source version that corresponds to your NGINX Plus installation. In this example, it’s NGINX 1.11.5.
+
+$ nginx -v
+nginx version: nginx/1.11.5 (nginx-plus-r11)
+Download the corresponding NGINX Open Source package at nginx.org/download:
+
+$ wget https://nginx.org/download/nginx-1.11.5.tar.gz
+$ tar -xzvf nginx-1.11.5.tar.gz
+Step 2: Obtain the Module Sources
+Obtain the source for the ‘Hello World’ NGINX module from GitHub:
+
+$ git clone https://github.com/perusio/nginx-hello-world-module.git
+The config shell file for a module defines how it is built, and its format is different for dynamic modules than for modules being built statically into an NGINX Open Source binary.
+
+Modify the file nginx-hello-world-module/config to contain the following:
+
+ngx_addon_name=ngx_http_hello_world_module
+
+if test -n "$ngx_module_link"; then
+    ngx_module_type=HTTP
+    ngx_module_name=ngx_http_hello_world_module
+    ngx_module_srcs="$ngx_addon_dir/ngx_http_hello_world_module.c"
+
+    . auto/module
+else
+    HTTP_MODULES="$HTTP_MODULES ngx_http_hello_world_module"
+    NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/ngx_http_hello_world_module.c"
+fi
+For detailed information about compiling dynamic modules, including instructions on updating a module’s config file from the old format, see the NGINX Wiki.
+
+Step 3: Compile the Dynamic Module
+Compile the module by first running the configure script with the --with-compat argument, which creates a standard build environment supported by both NGINX Open Source and NGINX Plus. Then run make modules to build the module:
+
+$ cd nginx-1.11.5/
+$ ./configure --with-compat --add-dynamic-module=../nginx-hello-world-module
+$ make modules
+Copy the module library (.so file) to /etc/nginx/modules:
+
+$ sudo cp objs/ngx_http_hello_world_module.so /etc/nginx/modules/
+Step 4: Load and Use the Module
+To load the module into NGINX Plus, add the load_module directive in the top‑level (main) context of your nginx.conf configuration file (not within the http or stream context):
+
+load_module modules/ngx_http_hello_world_module.so;
+In the http context, add a location block with the hello_world directive provided by the Hello World module. Requests to the location return the response hello world.
+
+server {
+    listen 80;
+
+    location / {
+         hello_world;
+    }
+}
+Reload your NGINX Plus configuration and test it with a simple request:
+
+$ nginx -s reload
+$ curl http://localhost/
+hello world
