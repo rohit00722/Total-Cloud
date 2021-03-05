@@ -7,5 +7,7 @@ To implement the project one should first check the requirements and then should
 
 Procedure to deploy the Nginx server is also mentioned in the nginx file.
 
+After following the above steps Kubernetes cluster will be deployed successfully usinn AWS EKS.
+
 
 
