@@ -9,6 +9,6 @@ Procedure to deploy the Nginx server is also mentioned in the nginx file.
 
 After following the above steps Kubernetes cluster will be deployed successfully usinn AWS EKS.
 
-To deploy the website on Kubernetes cluster install the nginx server and then run the script on nginx server to successfully deploy the website.
+To deploy the website on Kubernetes cluster install the nginx server and then run the script on nginx javascript to successfully deploy the website.
 
 
